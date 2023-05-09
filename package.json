@@ -1,0 +1,5 @@
+{
+	"name": "library-btstack",
+	"version": "VERSION",
+	"description": "Dual-mode Bluetooth stack, with small memory footprint"
+}
