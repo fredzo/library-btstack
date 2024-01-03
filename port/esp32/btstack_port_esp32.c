@@ -98,6 +98,13 @@ static btstack_data_source_t transport_data_source;
 static int                   transport_signal_sent;
 static int                   transport_packets_to_deliver;
 
+static void (*btstack_esp32_congiguration_customizer)(esp_bt_controller_config_t *cfg) = NULL;
+
+void btstack_esp32_register_configuration_customizer(void (*congiguration_customizer)(esp_bt_controller_config_t *cfg)){
+    btstack_esp32_congiguration_customizer = congiguration_customizer;
+}
+
+
 // TODO: remove once stable 
 void report_recv_called_from_isr(void){
      printf("host_recv_pkt_cb called from ISR!\n");
@@ -244,6 +251,10 @@ static int transport_open(void){
 #endif
 
         esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+        if(btstack_esp32_congiguration_customizer != NULL)
+        {
+            btstack_esp32_congiguration_customizer(&bt_cfg);
+        }
         ret = esp_bt_controller_init(&bt_cfg);
         if (ret) {
             log_error("transport: esp_bt_controller_init failed");
