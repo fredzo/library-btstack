@@ -45,17 +45,11 @@ env.Replace(
         "+<3rd-party/md5/md5.c>",
         "+<3rd-party/micro-ecc/uECC.c>",
         "+<3rd-party/yxml/yxml.c>",
+        "+<src/classic/*.c>",
         "+<src/*.c>",
     ],
 )
 
-
-if "ENABLE_CLASSIC" in defines:
-    env.Append(
-        SRC_FILTER=[
-            "+<src/classic/*.c>",
-        ],
-    )
 if "ENABLE_BLE" in defines:
     env.Append(
         SRC_FILTER=[
